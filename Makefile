@@ -1,9 +1,10 @@
+SOURCE_FILE_NAME = bitcoin.md
+BOOK_NAME = Understanding-the-Satoshi-Bitcoin
 
-
-html: understanding_the_satoshi_bitcoin.md
-	pandoc -s understanding_the_satoshi_bitcoin.md -o understanding_the_satoshi_bitcoin.html 
-	firefox understanding_the_satoshi_bitcoin.html
+html: bitcoin.md
+	pandoc -s $(SOURCE_FILE_NAME) -o $(BOOK_NAME).html 
+	firefox $(BOOK_NAME).html
 
 
 clean:
-	rm understanding_the_satoshi_bitcoin.html
+	rm BOOK_NAME.*
