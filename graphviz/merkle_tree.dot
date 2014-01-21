@@ -1,0 +1,38 @@
+
+digraph G {
+	subgraph cluster_0 {
+		label="CBlock::vTx\nTranctions in array of block";
+		vTx [shape="record", label="{ tx0|tx1|tx2|tx3|tx4|tx5|tx6|tx7 } "]
+
+	}
+
+	subgraph cluster_1 {
+		label="Merkle Tree\n\ni=hash(txi)"
+		01234567 -> 0123;
+		01234567 -> 4567;
+		{rank=same; 0123; 4567;}
+		0123 -> 01;
+		0123 -> 23;
+		4567 -> 45;
+		4567 -> 67;
+		{rank=same; 01;23;45;67}
+		01->0;
+		01->1;
+		23->2;
+		23->3;
+		45->4;
+		45->5;
+		67->6;
+		67->7;
+		{rank=same; 0;1;2;3;4;5;6;7}
+	}
+	subgraph cluster_2 {
+		label="CBlock::vMerkleTree\n\nBuilt merkle tree\nstored in array of block";
+		vMerkelTree [shape="record", label="{ 01234567| 4567|0123| 67|45|23|01| 7|6|5|4|3|2|1|0} "]
+	}
+
+	subgraph cluster_3 {
+		label = "CBlock::GetMerkleBranch(5)\n index=5, means tx5's merkle branch"
+		vMerkleBranch [shape="record", label="{ 01234567|0123|67|4}"]
+	}
+}

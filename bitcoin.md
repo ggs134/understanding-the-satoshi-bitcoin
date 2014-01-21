@@ -37,19 +37,83 @@ typedef boost::variant\<CNoDestination, CKeyID, CScriptID\> CTxDestination;
 
 ## Qt
 
+
+
+
+
+
+
+
+
+
+
+
+
 # Chapter 1 - Bitcoin Protocol
 
-## Block Size
+## Block
+### Block Size
 The maximum allowed size for a serialized block, in bytes (network rule)  
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
+
+### Merkle Tree
+* build merkle Tree and merkle branch  
+`CBlock::BuildMerkleTree()`  
+`CBlock::GetMerkleBranch()`
+
+![](res/images/merkle_tree.png)
+
+* build merkle branch
 
 ## coin total mount
 static const int64_t MAX_MONEY = 21000000 * COIN;  
 static const int64_t COIN = 100000000; 
 
-## transaction
+## Transaction
+[CTransaction::nLockTime](https://en.bitcoin.it/wiki/NLockTime)  
+[CTxIn::nSequence](http://bitcoin.stackexchange.com/questions/2025/what-is-txins-sequence)  
+<https://en.bitcoin.it/wiki/Protocol_specification#tx>
+
 
 ## URI
+
+## Script
+<https://en.bitcoin.it/wiki/Script>
+
+U1 ---TA--> U2 ---TB--> U3
+
+scriptPubKey: OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+scriptSig: <sig> <pubKey>
+TA = { out{scriptPubKey}, in{scriptSig} }
+   = { out{... <U2 pubkeyHash> ...}, in{scriptSig} }
+TB = { out{scriptPubKey}, in{scriptSig} }
+   = { out{scriptPubKey}, in{<sig> <U2 pubkey>} }
+
+
+<sigA> <pubkeyA> OP_CHECKSIGVERIFY OP_CODESEPARATOR <sigB> <pubkeyB> OP_CHECKSIG
+
+the transaction that uses SIGHASH_SINGLE type of signature should not have more outputs than inputs
+
+## Dust
+<http://bitcoin.stackexchange.com/questions/10986/what-is-meant-by-bitcoin-dust>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Chapter 1 - Bitcoin Wallet
@@ -162,7 +226,9 @@ You can dump the ~/.bitcoin/wallet.dat to analyz key and value paires:
 You can refer to [Bitcoin Address](https://en.bitcoin.it/wiki/Technical_background_of_Bitcoin_addresses) about what is and how to create the bitcoin address.  
 The last step of creating bitcoin address is to use [Base58Checking encoding](https://en.bitcoin.it/wiki/Base58Check_encoding). The base58 encoding is the same as
 decimal or hex encoding. It uses 58 symbols to encode values. For deep understanding, you can read the EncodeBase58Check() and DecodeBase58Check()
-in [base58.h](https://github.com/bitcoin/bitcoin/blob/master/src/base58.h)   
+in [base58.h](https://github.com/bitcoin/bitcoin/blob/master/src/base58.h)
+
+[what-are-the-different-prefixes-of-bitcoin-addresses](http://bitcoin.stackexchange.com/questions/13174/what-are-the-different-prefixes-of-bitcoin-addresses)
 
 Some points should be noted while reading source code:
 
@@ -217,9 +283,11 @@ Also some good blogs for your understandings of bitcoin address:
 <http://p2pbucks.com/?p=4162>  
 
 
-
-
+## Send to Address
 <http://blog.163.com/moro80@126/blog/static/166300187201151010054194/>
+
+
+## CWallet::mapWallet
 
 
 
